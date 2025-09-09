@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "418718898718",
+    "project_id": "newsouq-2df73",
+    "storage_bucket": "newsouq-2df73.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418718898718:android:e6af26461eebf22aab6c0f",
+        "android_client_info": {
+          "package_name": "engmo.newsouq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEPUJTznf98x_hKKSHbIizO4JMsSoiSNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
