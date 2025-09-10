@@ -16,10 +16,10 @@ class NewSouqApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.signupScreen,
           onGenerateRoute: AppRouter.generateRoute,
-          //theme: ThemeData(
-          //  scaffoldBackgroundColor: AppColors.white,
-          //  appBarTheme: AppBarTheme(backgroundColor: AppColors.white),
-          //),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+          ),
         );
       },
     );
