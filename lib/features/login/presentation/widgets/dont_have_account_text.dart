@@ -3,8 +3,8 @@ import 'package:newsouq/core/helpers/extension.dart';
 import 'package:newsouq/core/routing/app_routes.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
 
-class AlreadyHaveAccountText extends StatelessWidget {
-  const AlreadyHaveAccountText({super.key});
+class DontHaveAccountText extends StatelessWidget {
+  const DontHaveAccountText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +12,15 @@ class AlreadyHaveAccountText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Already have an account? ',
+          "Don't have an account? ",
           style: AppTextStyles.gray4Color16FontSizeRegular,
         ),
         InkWell(
           onTap: () {
-            context.pushNamed(AppRoutes.loginScreen);
+            context.pushNamed(AppRoutes.signupScreen);
           },
           child: Text(
-            'Log In',
+            'Signup',
             style: AppTextStyles.blackColor16FontSizeMediumUnderline,
           ),
         ),
