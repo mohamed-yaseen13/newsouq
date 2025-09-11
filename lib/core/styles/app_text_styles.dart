@@ -39,4 +39,10 @@ class AppTextStyles {
     color: Colors.white,
     fontWeight: FontWeight.w400,
   );
+
+  static TextStyle blackColor20FontSizeSemibold = TextStyle(
+    fontSize: 20.sp,
+    color: AppColors.black,
+    fontWeight: FontWeight.w700,
+  );
 }
