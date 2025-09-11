@@ -14,7 +14,7 @@ class NewSouqApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.signupScreen,
+          initialRoute: AppRoutes.homeScreen,
           onGenerateRoute: AppRouter.generateRoute,
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,

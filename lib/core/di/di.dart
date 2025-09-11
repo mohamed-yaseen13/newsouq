@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:newsouq/core/api/dio_factory.dart';
+import 'package:newsouq/features/home/data/apis/home_api_service.dart';
+import 'package:newsouq/features/home/data/repos/home_repo_imp.dart';
+import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
 import 'package:newsouq/features/login/data/login_repo_imp.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
 import 'package:newsouq/features/reset_password/data/reset_password_repo_imp.dart';
@@ -36,5 +41,15 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<ResetPasswordCubit>(
     () =>
         ResetPasswordCubit(resetPasswordRepoImp: getIt<ResetPasswordRepoImp>()),
+  );
+
+  Dio dio = DioFactory.getDio();
+
+  getIt.registerLazySingleton<HomeApiService>(() => HomeApiService(dio));
+  getIt.registerLazySingleton<HomeRepoImp>(
+    () => HomeRepoImp(homeApiService: getIt<HomeApiService>()),
+  );
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(homeRepoImp: getIt<HomeRepoImp>()),
   );
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/core/di/di.dart';
 import 'package:newsouq/core/routing/app_routes.dart';
-import 'package:newsouq/features/home/home_screen.dart';
+import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
+import 'package:newsouq/features/home/presentation/screens/home_screen.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
 import 'package:newsouq/features/login/presentation/screens/login_screen.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_cubit.dart';
@@ -26,7 +27,12 @@ class AppRouter {
 
       case AppRoutes.homeScreen:
         return MaterialPageRoute(
-          builder: (_) => HomeScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<HomeCubit>()
+              ..getCategories()
+              ..getProducts(),
+            child: HomeScreen(),
+          ),
           settings: settings,
         );
 

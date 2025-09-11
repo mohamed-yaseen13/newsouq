@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_error_model.dart';
 import 'package:newsouq/core/api/api_result.dart';
@@ -56,8 +55,7 @@ class ResetPasswordRepoImp {
 
       return ApiResult.success(null);
     } catch (error) {
-      debugPrint(error.toString());
-      return ApiResult.failure(ApiErrorModel(message: "Something went Wrong"));
+      return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
 }
