@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_result.dart';
+import 'package:newsouq/core/database/database.dart';
 
 class SignupRepoImp {
   final FirebaseAuth auth;
@@ -16,6 +17,9 @@ class SignupRepoImp {
         email: email,
         password: password,
       );
+
+      await Database.saveEmailAndPasswordToDatabase(email, password);
+
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));

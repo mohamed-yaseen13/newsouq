@@ -27,6 +27,13 @@ class Database {
     return savedOtp == otp && DateTime.now().isBefore(expiresAt);
   }
 
+  static Future<void> saveEmailAndPasswordToDatabase(
+    String email,
+    String password,
+  ) async {
+    await getEmailRef(email).set({'password': password});
+  }
+
   static Future<String> getPasswordFromDatabase(String email) async {
     final doc = await getEmailRef(email).get();
 
