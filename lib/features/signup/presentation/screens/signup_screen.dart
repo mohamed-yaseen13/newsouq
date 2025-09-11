@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsouq/core/helpers/extension.dart';
 import 'package:newsouq/core/helpers/spacing.dart';
 import 'package:newsouq/core/routing/app_routes.dart';
+import 'package:newsouq/core/states/states.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
 import 'package:newsouq/features/signup/presentation/cubit/signup_cubit.dart';
 import 'package:newsouq/features/signup/presentation/cubit/signup_state.dart';
@@ -19,43 +20,24 @@ class SignupScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: BlocConsumer<SignupCubit, SignupState>(
           listener: (context, state) {
-            if (state is SignupLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return Center(
-                    child: Container(
-                      padding: EdgeInsets.all(24.sp),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  );
-                },
-              );
-            }
-            if (state is SignupError) {
-              Navigator.of(context, rootNavigator: true).pop();
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Signup Failed"),
-                  content: Text(state.apiErrorModel.message!),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(),
-                      child: const Text("OK"),
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (state is SignupSuccess) {
-              Navigator.of(context, rootNavigator: true).pop();
-              context.pushReplacementNamed(AppRoutes.homeScreen);
+            switch (state) {
+              case SignupLoading _:
+                return loadingState(context: context);
+
+              case SignupError _:
+                Navigator.of(context, rootNavigator: true).pop();
+                return errorState(
+                  context: context,
+                  desc: 'Signup Failed',
+                  message: state.apiErrorModel.message!,
+                );
+
+              case SignupSuccess _:
+                Navigator.of(context, rootNavigator: true).pop();
+                context.pushReplacementNamed(AppRoutes.homeScreen);
+
+              default:
+                return;
             }
           },
           builder: (context, state) {

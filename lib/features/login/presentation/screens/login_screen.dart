@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsouq/core/helpers/extension.dart';
 import 'package:newsouq/core/helpers/spacing.dart';
 import 'package:newsouq/core/routing/app_routes.dart';
+import 'package:newsouq/core/states/states.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_state.dart';
@@ -19,43 +20,24 @@ class LoginScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
-            if (state is LoginLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return Center(
-                    child: Container(
-                      padding: EdgeInsets.all(24.sp),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  );
-                },
-              );
-            }
-            if (state is LoginError) {
-              Navigator.of(context, rootNavigator: true).pop();
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Signup Failed"),
-                  content: Text(state.apiErrorModel.message!),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(),
-                      child: const Text("OK"),
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (state is LoginSuccess) {
-              Navigator.of(context, rootNavigator: true).pop();
-              context.pushReplacementNamed(AppRoutes.homeScreen);
+            switch (state) {
+              case LoginLoading _:
+                loadingState(context: context);
+
+              case LoginError _:
+                Navigator.of(context, rootNavigator: true).pop();
+                errorState(
+                  context: context,
+                  desc: 'Login Failed',
+                  message: state.apiErrorModel.message!,
+                );
+
+              case LoginSuccess _:
+                Navigator.of(context, rootNavigator: true).pop();
+                context.pushReplacementNamed(AppRoutes.homeScreen);
+
+              default:
+                return;
             }
           },
           builder: (context, state) {

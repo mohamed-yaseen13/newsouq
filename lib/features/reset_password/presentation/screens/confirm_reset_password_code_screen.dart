@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:newsouq/core/helpers/extension.dart';
 import 'package:newsouq/core/helpers/spacing.dart';
 import 'package:newsouq/core/routing/app_routes.dart';
+import 'package:newsouq/core/states/states.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_cubit.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_state.dart';
@@ -21,46 +22,27 @@ class ConfirmResetPasswordCodeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
           listener: (context, state) {
-            if (state is ResetPasswordLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return Center(
-                    child: Container(
-                      padding: EdgeInsets.all(24.sp),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  );
-                },
-              );
-            }
-            if (state is ResetPasswordError) {
-              Navigator.of(context, rootNavigator: true).pop();
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Signup Failed"),
-                  content: Text(state.apiErrorModel.message!),
-                  actions: [
-                    TextButton(
-                      onPressed: () => context.pop(),
-                      child: const Text("OK"),
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (state is ResetPasswordSuccess) {
-              Navigator.of(context, rootNavigator: true).pop();
-              context.pushNamed(
-                AppRoutes.resetPasswordScreen,
-                arguments: {'email': state.email},
-              );
+            switch (state) {
+              case ResetPasswordLoading _:
+                loadingState(context: context);
+
+              case ResetPasswordError _:
+                Navigator.of(context, rootNavigator: true).pop();
+                errorState(
+                  context: context,
+                  desc: "Reset Password Failed",
+                  message: state.apiErrorModel.message!,
+                );
+
+              case ResetPasswordSuccess _:
+                Navigator.of(context, rootNavigator: true).pop();
+                context.pushNamed(
+                  AppRoutes.resetPasswordScreen,
+                  arguments: {'email': state.email},
+                );
+
+              default:
+                return;
             }
           },
           builder: (context, state) {
