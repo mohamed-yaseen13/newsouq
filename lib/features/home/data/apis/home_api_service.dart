@@ -15,4 +15,9 @@ abstract class HomeApiService {
 
   @GET(ApiConstants.products)
   Future<ProductsResponseModel> getProducts();
+
+  @GET("${ApiConstants.category}/{categoryName}")
+  Future<ProductsResponseModel> getProductsFromCategory(
+    @Path() String categoryName,
+  );
 }

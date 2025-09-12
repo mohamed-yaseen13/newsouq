@@ -32,4 +32,18 @@ class HomeCubit extends Cubit<HomeState> {
       emit(GetProductsError(apiErrorModel: response.apiErrorModel));
     }
   }
+
+  void getProductsFromCategory(List<String> selectedCategories) async {
+    emit(GetProductsLoading());
+
+    final response = await homeRepoImp.getProductsFromCategory(
+      selectedCategories,
+    );
+
+    if (response is Success<List<HomeProductEntity>>) {
+      emit(GetProductsSuccess(homeProducts: response.data));
+    } else if (response is Failure<List<HomeProductEntity>>) {
+      emit(GetProductsError(apiErrorModel: response.apiErrorModel));
+    }
+  }
 }

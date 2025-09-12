@@ -39,4 +39,25 @@ class HomeRepoImp {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
+
+  Future<ApiResult<List<HomeProductEntity>>> getProductsFromCategory(
+    List<String> selectedCategories,
+  ) async {
+    List<HomeProductEntity> productsFromSelectedCategories = [];
+    try {
+      for (String categoryName in selectedCategories) {
+        ProductsResponseModel productsResponseModel = await homeApiService
+            .getProductsFromCategory(categoryName);
+
+        List<HomeProductEntity> productsEntity = productsResponseModel.products
+            .map((product) => ProductsMapper.toProductEntity(product))
+            .toList();
+
+        productsFromSelectedCategories += productsEntity;
+      }
+      return ApiResult.success(productsFromSelectedCategories);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
 }
