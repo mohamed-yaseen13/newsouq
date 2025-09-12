@@ -60,4 +60,32 @@ class HomeRepoImp {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
+
+  Future<ApiResult<List<HomeProductEntity>>> getSearchedProducts(
+    String searchingText,
+  ) async {
+    if (searchingText.isEmpty) {
+      return ApiResult.success([]);
+    }
+    try {
+      ProductsResponseModel productsResponseModel = await homeApiService
+          .getProducts();
+
+      List<HomeProductEntity> productsEntity = productsResponseModel.products
+          .map((product) => ProductsMapper.toProductEntity(product))
+          .toList();
+
+      productsEntity = productsEntity.where((product) {
+        final name = product.name.toLowerCase();
+        final searchWords = searchingText.toLowerCase().trim().split(
+          RegExp(r'\s+'),
+        );
+        return searchWords.every((word) => name.contains(word));
+      }).toList();
+
+      return ApiResult.success(productsEntity);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
 }

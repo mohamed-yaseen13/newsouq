@@ -1,36 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:newsouq/core/styles/app_colors.dart';
-import 'package:newsouq/core/styles/app_text_styles.dart';
+import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
+import 'package:newsouq/features/home/presentation/widgets/app_search_bar.dart';
+import 'package:newsouq/features/home/presentation/widgets/search_result_container.dart';
 
-class SearchBarAndFilterIconRow extends StatelessWidget {
+class SearchBarAndFilterIconRow extends StatefulWidget {
   const SearchBarAndFilterIconRow({super.key});
+
+  @override
+  State<SearchBarAndFilterIconRow> createState() =>
+      _SearchBarAndFilterIconRowState();
+}
+
+class _SearchBarAndFilterIconRowState extends State<SearchBarAndFilterIconRow> {
+  late FocusNode focusNode;
+  final controller = TextEditingController();
+  final layerLink = LayerLink();
+  OverlayEntry? overlayEntry;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode();
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        removeOverlay();
+      }
+    });
+  }
+
+  void removeOverlay() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+
+  void showOverlay() {
+    if (!mounted || overlayEntry != null) return;
+    final overlay = Overlay.of(context);
+    overlayEntry = OverlayEntry(
+      builder: (overlayContext) {
+        final homeCubit = context.read<HomeCubit>();
+        return Positioned(
+          width: 280.w,
+          child: CompositedTransformFollower(
+            link: layerLink,
+            offset: Offset(2.w, 52.h),
+            showWhenUnlinked: false,
+            child: BlocProvider.value(
+              value: homeCubit,
+              child: SearchResultContainer(),
+            ),
+          ),
+        );
+      },
+    );
+    overlay.insert(overlayEntry!);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          children: [
-            Container(
-              width: 280.w,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: AppColors.gray1),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  icon: SvgPicture.asset('assets/icons/Search.svg'),
-                  hintText: 'Search',
-                  hintStyle: AppTextStyles.gray4Color16FontSizeRegular,
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ],
+        AppSearchBar(
+          layerLink: layerLink,
+          focusNode: focusNode,
+          controller: controller,
+          showOverlay: showOverlay,
         ),
         Spacer(),
         SvgPicture.asset('assets/icons/Button.svg'),

@@ -46,4 +46,16 @@ class HomeCubit extends Cubit<HomeState> {
       emit(GetProductsError(apiErrorModel: response.apiErrorModel));
     }
   }
+
+  void getSearchedProducts(String searchingText) async {
+    emit(GetSearchedProductsLoading());
+
+    final response = await homeRepoImp.getSearchedProducts(searchingText);
+
+    if (response is Success<List<HomeProductEntity>>) {
+      emit(GetSearchedProductsSuccess(homeProducts: response.data));
+    } else if (response is Failure<List<HomeProductEntity>>) {
+      emit(GetSearchedProductsError(apiErrorModel: response.apiErrorModel));
+    }
+  }
 }

@@ -34,3 +34,18 @@ class GetProductsError extends HomeState {
 
   GetProductsError({required this.apiErrorModel});
 }
+
+// search on products
+class GetSearchedProductsLoading extends HomeState {}
+
+class GetSearchedProductsSuccess extends HomeState {
+  final List<HomeProductEntity> homeProducts;
+
+  GetSearchedProductsSuccess({required this.homeProducts});
+}
+
+class GetSearchedProductsError extends HomeState {
+  final ApiErrorModel apiErrorModel;
+
+  GetSearchedProductsError({required this.apiErrorModel});
+}
