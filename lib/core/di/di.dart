@@ -9,6 +9,9 @@ import 'package:newsouq/features/login/data/login_repo_imp.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
 import 'package:newsouq/features/reset_password/data/reset_password_repo_imp.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_cubit.dart';
+import 'package:newsouq/features/search/data/apis/search_api_service.dart';
+import 'package:newsouq/features/search/data/repos/search_repo_imp.dart';
+import 'package:newsouq/features/search/presentation/cubit/search_cubit.dart';
 import 'package:newsouq/features/signup/data/signup_repo_imp.dart';
 import 'package:newsouq/features/signup/presentation/cubit/signup_cubit.dart';
 
@@ -45,11 +48,21 @@ Future<void> setupGetIt() async {
 
   Dio dio = DioFactory.getDio();
 
+  // home
   getIt.registerLazySingleton<HomeApiService>(() => HomeApiService(dio));
   getIt.registerLazySingleton<HomeRepoImp>(
     () => HomeRepoImp(homeApiService: getIt<HomeApiService>()),
   );
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(homeRepoImp: getIt<HomeRepoImp>()),
+  );
+
+  // search
+  getIt.registerLazySingleton<SearchApiService>(() => SearchApiService(dio));
+  getIt.registerLazySingleton<SearchRepoImp>(
+    () => SearchRepoImp(searchApiService: getIt<SearchApiService>()),
+  );
+  getIt.registerFactory<SearchCubit>(
+    () => SearchCubit(searchRepoImp: getIt<SearchRepoImp>()),
   );
 }

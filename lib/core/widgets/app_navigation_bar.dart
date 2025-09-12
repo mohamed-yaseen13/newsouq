@@ -26,8 +26,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     switch (screen) {
       case NavigationBarEnum.home:
         return AppRoutes.homeScreen;
-      //case NavigationBarEnum.search:
-      //return AppRoutes.chatsScreen;
+      case NavigationBarEnum.search:
+        return AppRoutes.searchScreen;
       //case NavigationBarEnum.saved:
       //return AppRoutes.home;
       //case NavigationBarEnum.cart:
@@ -74,7 +74,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         final selected = _indexToEnum(index);
 
         if (selected != widget.selectedScreen) {
-          context.pushReplacementNamed(_enumToRoute(selected));
+          context.pushNamed(_enumToRoute(selected));
         }
       },
       backgroundColor: Colors.white,

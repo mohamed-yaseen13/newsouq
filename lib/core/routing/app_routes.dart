@@ -13,4 +13,6 @@ class AppRoutes {
   static const String resetPasswordScreen = 'resetPasswordScreen';
 
   static const String notificationsScreen = 'notificationsScreen';
+
+  static const String searchScreen = 'searchScreen';
 }
