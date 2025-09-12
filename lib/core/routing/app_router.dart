@@ -6,6 +6,7 @@ import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
 import 'package:newsouq/features/home/presentation/screens/home_screen.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
 import 'package:newsouq/features/login/presentation/screens/login_screen.dart';
+import 'package:newsouq/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_cubit.dart';
 import 'package:newsouq/features/reset_password/presentation/screens/confirm_reset_password_code_screen.dart';
 import 'package:newsouq/features/reset_password/presentation/screens/forgot_password_screen.dart';
@@ -73,6 +74,12 @@ class AppRouter {
             create: (context) => getIt<ResetPasswordCubit>(),
             child: ResetPasswordScreen(email: email!),
           ),
+          settings: settings,
+        );
+
+      case AppRoutes.notificationsScreen:
+        return MaterialPageRoute(
+          builder: (_) => NotificationsScreen(),
           settings: settings,
         );
 

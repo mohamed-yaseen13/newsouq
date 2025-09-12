@@ -11,4 +11,6 @@ class AppRoutes {
       'confirmResetPasswordCodeScreen';
 
   static const String resetPasswordScreen = 'resetPasswordScreen';
+
+  static const String notificationsScreen = 'notificationsScreen';
 }
