@@ -1,24 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_result.dart';
-import 'package:newsouq/core/database/database.dart';
+import 'package:newsouq/features/signup/data/apis/signup_api_service.dart';
 
 class SignupRepoImp {
-  final FirebaseAuth auth;
+  final SignupApiService signupApiService;
 
-  SignupRepoImp({required this.auth});
+  SignupRepoImp({required this.signupApiService});
 
   Future<ApiResult<UserCredential>> signup(
     String email,
     String password,
   ) async {
     try {
-      final response = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      await Database.saveEmailAndPasswordToDatabase(email, password);
+      final response = await signupApiService.signup(email, password);
 
       return ApiResult.success(response);
     } catch (error) {

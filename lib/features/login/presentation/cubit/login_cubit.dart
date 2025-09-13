@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/core/api/api_result.dart';
-import 'package:newsouq/features/login/data/login_repo_imp.dart';
+import 'package:newsouq/features/login/data/repos/login_repo_imp.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {

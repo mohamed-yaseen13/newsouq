@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/core/api/api_result.dart';
-import 'package:newsouq/features/signup/data/signup_repo_imp.dart';
+import 'package:newsouq/features/signup/data/repos/signup_repo_imp.dart';
 import 'package:newsouq/features/signup/presentation/cubit/signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
