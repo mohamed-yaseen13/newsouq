@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
 import 'package:newsouq/features/home/presentation/cubit/home_state.dart';
+import 'package:newsouq/features/home/presentation/widgets/categories_loading.dart';
 import 'package:newsouq/features/home/presentation/widgets/categories_row.dart';
 
 class CategoriesBuilder extends StatelessWidget {
@@ -17,7 +18,7 @@ class CategoriesBuilder extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case GetCategoriesLoading _:
-            return const Center(child: CircularProgressIndicator());
+            return const CategoriesLoading();
 
           case GetCategoriesError _:
             return Center(child: Text(state.apiErrorModel.message!));
@@ -26,7 +27,7 @@ class CategoriesBuilder extends StatelessWidget {
             return CategoriesRow(state: state);
 
           default:
-            return const Center(child: Text('no data'));
+            return const CategoriesLoading();
         }
       },
     );

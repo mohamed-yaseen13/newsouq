@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/features/search/presentation/cubit/search_cubit.dart';
 import 'package:newsouq/features/search/presentation/cubit/search_state.dart';
 import 'package:newsouq/features/search/presentation/widgets/search_default_state.dart';
+import 'package:newsouq/features/search/presentation/widgets/search_loading_state.dart';
 import 'package:newsouq/features/search/presentation/widgets/search_no_result_state.dart';
 import 'package:newsouq/features/search/presentation/widgets/search_success_state.dart';
 
@@ -20,7 +21,7 @@ class SearchBuilder extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case GetSearchedProductsLoading _:
-            return const Center(child: CircularProgressIndicator());
+            return const SearchLoadingState();
           case GetSearchedProductsError _:
             return const Center(child: Text('Something went worng'));
           case GetSearchedProductsSuccess _:
