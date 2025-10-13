@@ -25,6 +25,7 @@ class ProductCard extends StatelessWidget {
               product.imageUrl,
               width: double.infinity,
               fit: BoxFit.cover,
+              height: 190,
             ),
           ),
         ),
@@ -34,9 +35,19 @@ class ProductCard extends StatelessWidget {
           maxLines: 1,
         ),
         verticalSpace(4),
-        Text(
-          '\$${product.price}',
-          style: AppTextStyles.gray5Color16FontSizeRegular,
+        Row(
+          children: [
+            Text(
+              '${product.price.toStringAsFixed(2)} EGP',
+              style: AppTextStyles.gray5Color16FontSizeRegular,
+            ),
+            horizontalSpace(8),
+            if (product.discountPercentage > 0.0)
+              Text(
+                '-${product.discountPercentage}%',
+                style: TextStyle(color: Colors.red),
+              ),
+          ],
         ),
       ],
     );

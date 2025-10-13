@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:newsouq/core/api/dio_factory.dart';
-import 'package:newsouq/core/database/database.dart';
 import 'package:newsouq/features/home/data/apis/home_api_service.dart';
+import 'package:newsouq/features/home/data/apis/new_home_api_service.dart';
 import 'package:newsouq/features/home/data/repos/home_repo_imp.dart';
 import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
 import 'package:newsouq/features/login/data/apis/login_api_service.dart';
@@ -25,17 +25,14 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
   // Database
-  getIt.registerLazySingleton<Database>(() => Database());
+  //getIt.registerLazySingleton<Database>(() => Database());
 
   // Dio
   Dio dio = DioFactory.getDio();
 
   // Signup
   getIt.registerLazySingleton<SignupApiService>(
-    () => SignupApiService(
-      auth: getIt<FirebaseAuth>(),
-      database: getIt<Database>(),
-    ),
+    () => SignupApiService(auth: getIt<FirebaseAuth>()),
   );
   getIt.registerLazySingleton<SignupRepoImp>(
     () => SignupRepoImp(signupApiService: getIt<SignupApiService>()),
@@ -66,8 +63,12 @@ Future<void> setupGetIt() async {
 
   // home
   getIt.registerLazySingleton<HomeApiService>(() => HomeApiService(dio));
+  getIt.registerLazySingleton<NewHomeApiService>(() => NewHomeApiService());
   getIt.registerLazySingleton<HomeRepoImp>(
-    () => HomeRepoImp(homeApiService: getIt<HomeApiService>()),
+    () => HomeRepoImp(
+      homeApiService: getIt<HomeApiService>(),
+      newHomeApiService: getIt<NewHomeApiService>(),
+    ),
   );
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(homeRepoImp: getIt<HomeRepoImp>()),

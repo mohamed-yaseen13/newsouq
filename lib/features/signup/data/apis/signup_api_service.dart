@@ -3,9 +3,8 @@ import 'package:newsouq/core/database/database.dart';
 
 class SignupApiService {
   final FirebaseAuth auth;
-  final Database database;
 
-  SignupApiService({required this.auth, required this.database});
+  SignupApiService({required this.auth});
 
   Future<UserCredential> signup(String email, String password) async {
     final response = await auth.createUserWithEmailAndPassword(

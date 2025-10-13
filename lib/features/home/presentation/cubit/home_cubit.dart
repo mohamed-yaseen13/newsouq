@@ -27,10 +27,43 @@ class HomeCubit extends Cubit<HomeState> {
     final response = await homeRepoImp.getProducts();
 
     if (response is Success<List<HomeProductEntity>>) {
-      emit(GetProductsSuccess(homeProducts: response.data));
+      emit(
+        GetProductsSuccess(
+          homeProducts: response.data,
+          hasMore: response.hasMore,
+        ),
+      );
     } else if (response is Failure<List<HomeProductEntity>>) {
       emit(GetProductsError(apiErrorModel: response.apiErrorModel));
     }
+  }
+
+  bool _isLoadingMore = false;
+
+  void getMoreProducts() async {
+    if (_isLoadingMore) return;
+    _isLoadingMore = true;
+
+    final currentState = state;
+    List<HomeProductEntity> currentProducts = [];
+
+    if (currentState is GetProductsSuccess) {
+      currentProducts = List.from(currentState.homeProducts);
+    }
+
+    final response = await homeRepoImp.getMoreProducts();
+
+    if (response is Success<List<HomeProductEntity>>) {
+      emit(
+        GetProductsSuccess(
+          homeProducts: currentProducts + response.data,
+          hasMore: response.hasMore,
+        ),
+      );
+    } else if (response is Failure<List<HomeProductEntity>>) {
+      emit(GetProductsError(apiErrorModel: response.apiErrorModel));
+    }
+    _isLoadingMore = false;
   }
 
   void getProductsFromCategory(List<String> selectedCategories) async {
@@ -41,7 +74,12 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     if (response is Success<List<HomeProductEntity>>) {
-      emit(GetProductsSuccess(homeProducts: response.data));
+      emit(
+        GetProductsSuccess(
+          homeProducts: response.data,
+          hasMore: response.hasMore,
+        ),
+      );
     } else if (response is Failure<List<HomeProductEntity>>) {
       emit(GetProductsError(apiErrorModel: response.apiErrorModel));
     }

@@ -1,6 +1,7 @@
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_result.dart';
 import 'package:newsouq/features/home/data/apis/home_api_service.dart';
+import 'package:newsouq/features/home/data/apis/new_home_api_service.dart';
 import 'package:newsouq/features/home/data/mappers/products_mapper.dart';
 import 'package:newsouq/features/home/data/models/category_model.dart';
 import 'package:newsouq/features/home/domain/entities/home_product_entity.dart';
@@ -8,8 +9,9 @@ import 'package:newsouq/features/home/data/models/products_response_model.dart';
 
 class HomeRepoImp {
   final HomeApiService homeApiService;
+  final NewHomeApiService newHomeApiService;
 
-  HomeRepoImp({required this.homeApiService});
+  HomeRepoImp({required this.homeApiService, required this.newHomeApiService});
 
   Future<ApiResult<List<String>>> getCategories() async {
     try {
@@ -27,14 +29,35 @@ class HomeRepoImp {
 
   Future<ApiResult<List<HomeProductEntity>>> getProducts() async {
     try {
-      ProductsResponseModel productsResponseModel = await homeApiService
+      ProductsResponseModel productsResponseModel = await newHomeApiService
           .getProducts();
 
       List<HomeProductEntity> productsEntity = productsResponseModel.products
           .map((product) => ProductsMapper.toProductEntity(product))
           .toList();
 
-      return ApiResult.success(productsEntity);
+      return ApiResult.success(
+        productsEntity,
+        hasMore: productsResponseModel.hasMore,
+      );
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.handle(error));
+    }
+  }
+
+  Future<ApiResult<List<HomeProductEntity>>> getMoreProducts() async {
+    try {
+      ProductsResponseModel productsResponseModel = await newHomeApiService
+          .getMoreProducts();
+
+      List<HomeProductEntity> productsEntity = productsResponseModel.products
+          .map((product) => ProductsMapper.toProductEntity(product))
+          .toList();
+
+      return ApiResult.success(
+        productsEntity,
+        hasMore: productsResponseModel.hasMore,
+      );
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
@@ -68,7 +91,7 @@ class HomeRepoImp {
       return ApiResult.success([]);
     }
     try {
-      ProductsResponseModel productsResponseModel = await homeApiService
+      ProductsResponseModel productsResponseModel = await newHomeApiService
           .getProducts();
 
       List<HomeProductEntity> productsEntity = productsResponseModel.products

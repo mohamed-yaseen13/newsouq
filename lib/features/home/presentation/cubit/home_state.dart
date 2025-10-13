@@ -25,8 +25,9 @@ class GetProductsLoading extends HomeState {}
 
 class GetProductsSuccess extends HomeState {
   final List<HomeProductEntity> homeProducts;
+  final bool hasMore;
 
-  GetProductsSuccess({required this.homeProducts});
+  GetProductsSuccess({required this.homeProducts, required this.hasMore});
 }
 
 class GetProductsError extends HomeState {

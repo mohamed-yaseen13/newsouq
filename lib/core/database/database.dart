@@ -7,6 +7,11 @@ class Database {
           .collection(AppConstants.emailsCollection)
           .doc(email);
 
+  static DocumentReference<Map<String, dynamic>> getMerchantRef(String email) =>
+      FirebaseFirestore.instance
+          .collection(AppConstants.merchantsCollection)
+          .doc(email);
+
   static Future<bool> checkIfEmailExist(String email) async {
     final doc = await getEmailRef(email).get();
     return doc.exists;
@@ -31,7 +36,7 @@ class Database {
     String email,
     String password,
   ) async {
-    await getEmailRef(email).set({'password': password});
+    await getEmailRef(email).set({'password': password, 'role': 'customer'});
   }
 
   static Future<String> getPasswordFromDatabase(String email) async {
