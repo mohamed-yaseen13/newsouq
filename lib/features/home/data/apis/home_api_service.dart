@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:newsouq/core/constants/database_constants.dart';
 import 'package:newsouq/features/home/data/models/product_model.dart';
 import 'package:newsouq/features/home/data/models/products_response_model.dart';
@@ -79,41 +78,24 @@ class HomeApiService {
   }
 
   Future<ProductsResponseModel> getProductsFromCategory(String category) async {
-    if (kDebugMode) {
-      print('🔹 [HomeApiService] Fetching products for category: $category');
-    }
-
     final snapshot = await firestore
         .collectionGroup('products')
         .where('category', isEqualTo: category)
-        .limit(10)
+        .limit(25)
         .get();
 
-    if (kDebugMode) {
-      print(
-        '🔹 [HomeApiService] Fetched ${snapshot.docs.length} products for $category',
-      );
-    }
-
     if (snapshot.docs.isEmpty) {
-      if (kDebugMode) {
-        print('⚠️ [HomeApiService] No products found for $category');
-      }
       return ProductsResponseModel(products: [], hasMore: false);
     }
 
     final products = snapshot.docs.map((doc) {
       final id = doc.reference.parent.parent!.id;
-      if (kDebugMode) {
-        print('✅ [HomeApiService] Product doc: ${doc.id} | SellerId: $id');
-      }
+
       return ProductModel.fromJson(doc.data()).copyWithId(id);
     }).toList();
 
-    final hasMore = snapshot.docs.length == 10;
-    if (kDebugMode) {
-      print('🔹 [HomeApiService] hasMore = $hasMore');
-    }
+    final hasMore = snapshot.docs.length == 25;
+
     return ProductsResponseModel(products: products, hasMore: hasMore);
   }
 

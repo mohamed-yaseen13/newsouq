@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_result.dart';
 import 'package:newsouq/features/home/data/apis/home_api_service.dart';
@@ -60,25 +59,11 @@ class HomeRepoImp {
   Future<ApiResult<List<HomeProductEntity>>> getProductsFromCategory(
     List<String> selectedCategories,
   ) async {
-    if (kDebugMode) {
-      print('🌀 [HomeRepoImp] Selected categories: $selectedCategories');
-    }
-
     List<HomeProductEntity> productsFromSelectedCategories = [];
     try {
       for (String categoryName in selectedCategories) {
-        if (kDebugMode) {
-          print('🔸 [HomeRepoImp] Fetching products for: $categoryName');
-        }
-
         final ProductsResponseModel productsResponseModel = await homeApiService
             .getProductsFromCategory(categoryName);
-
-        if (kDebugMode) {
-          print(
-            '🔸 [HomeRepoImp] Received ${productsResponseModel.products.length} products from $categoryName',
-          );
-        }
 
         List<HomeProductEntity> productsEntity = productsResponseModel.products
             .map((product) => HomeProductsMapper.toProductEntity(product))
@@ -86,17 +71,9 @@ class HomeRepoImp {
 
         productsFromSelectedCategories += productsEntity;
       }
-      if (kDebugMode) {
-        print(
-          '✅ [HomeRepoImp] Total combined products: ${productsFromSelectedCategories.length}',
-        );
-      }
+
       return ApiResult.success(productsFromSelectedCategories);
-    } catch (error, stack) {
-      if (kDebugMode) {
-        print('❌ [HomeRepoImp] Error fetching products: $error');
-        print(stack);
-      }
+    } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));
     }
   }
