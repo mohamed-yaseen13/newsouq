@@ -29,10 +29,10 @@ class _CategoriesRowState extends State<CategoriesRow> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  if (selectedCategories.contains(name.toLowerCase())) {
-                    selectedCategories.remove(name.toLowerCase());
+                  if (selectedCategories.contains(name)) {
+                    selectedCategories.remove(name);
                   } else {
-                    selectedCategories.add(name.toLowerCase());
+                    selectedCategories.add(name);
                   }
                 });
                 if (selectedCategories.isEmpty) {
@@ -46,7 +46,7 @@ class _CategoriesRowState extends State<CategoriesRow> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: selectedCategories.contains(name.toLowerCase())
+                  color: selectedCategories.contains(name)
                       ? AppColors.black
                       : Colors.white,
                   borderRadius: BorderRadius.circular(12.r),
@@ -54,7 +54,7 @@ class _CategoriesRowState extends State<CategoriesRow> {
                 ),
                 child: Text(
                   name,
-                  style: selectedCategories.contains(name.toLowerCase())
+                  style: selectedCategories.contains(name)
                       ? AppTextStyles.whiteColor16FontSizeMedium
                       : AppTextStyles.blackColor16FontSizeMedium,
                 ),

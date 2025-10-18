@@ -12,7 +12,7 @@ ProductsResponseModel _$ProductsResponseModelFromJson(
   Map<String, dynamic> json,
 ) => ProductsResponseModel(
   products: (json['products'] as List<dynamic>)
-      .map((e) => NewProductModel.fromJson(e as Map<String, dynamic>))
+      .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
       .toList(),
   hasMore: json['hasMore'] as bool,
 );

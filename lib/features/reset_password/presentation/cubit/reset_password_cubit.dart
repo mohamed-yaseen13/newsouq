@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsouq/core/api/api_result.dart';
-import 'package:newsouq/features/reset_password/data/reset_password_repo_imp.dart';
+import 'package:newsouq/features/reset_password/data/repos/reset_password_repo_imp.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_state.dart';
 
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {

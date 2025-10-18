@@ -17,11 +17,11 @@ class SearchSuccessState extends StatelessWidget {
         crossAxisCount: 1,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
-        childAspectRatio: 2 / 2.7,
+        childAspectRatio: 2 / 1.8,
       ),
-      itemCount: state.homeProducts.length,
+      itemCount: state.searchProducts.length,
       itemBuilder: (context, index) {
-        final product = state.homeProducts[index];
+        final product = state.searchProducts[index];
         return InkWell(
           onTap: () {},
           child: ProductCard(product: product),

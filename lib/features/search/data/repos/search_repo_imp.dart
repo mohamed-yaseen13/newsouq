@@ -1,16 +1,16 @@
 import 'package:newsouq/core/api/api_error_handler.dart';
 import 'package:newsouq/core/api/api_result.dart';
-import 'package:newsouq/features/home/data/mappers/products_mapper.dart';
 import 'package:newsouq/features/home/data/models/products_response_model.dart';
-import 'package:newsouq/features/home/domain/entities/home_product_entity.dart';
 import 'package:newsouq/features/search/data/apis/search_api_service.dart';
+import 'package:newsouq/features/search/data/mappers/search_products_mapper.dart';
+import 'package:newsouq/features/search/domain/entities/search_product_entity.dart';
 
 class SearchRepoImp {
   final SearchApiService searchApiService;
 
   SearchRepoImp({required this.searchApiService});
 
-  Future<ApiResult<List<HomeProductEntity>>> getSearchedProducts(
+  Future<ApiResult<List<SearchProductEntity>>> getSearchedProducts(
     String searchingText,
   ) async {
     if (searchingText.isEmpty) {
@@ -20,8 +20,8 @@ class SearchRepoImp {
       ProductsResponseModel productsResponseModel = await searchApiService
           .getProducts();
 
-      List<HomeProductEntity> productsEntity = productsResponseModel.products
-          .map((product) => ProductsMapper.toProductEntity(product))
+      List<SearchProductEntity> productsEntity = productsResponseModel.products
+          .map((product) => SearchProductsMapper.toProductEntity(product))
           .toList();
 
       productsEntity = productsEntity.where((product) {

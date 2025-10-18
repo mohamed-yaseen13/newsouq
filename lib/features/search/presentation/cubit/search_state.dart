@@ -1,5 +1,5 @@
 import 'package:newsouq/core/api/api_error_model.dart';
-import 'package:newsouq/features/home/domain/entities/home_product_entity.dart';
+import 'package:newsouq/features/search/domain/entities/search_product_entity.dart';
 
 sealed class SearchState {}
 
@@ -8,9 +8,9 @@ class SearchInitial extends SearchState {}
 class GetSearchedProductsLoading extends SearchState {}
 
 class GetSearchedProductsSuccess extends SearchState {
-  final List<HomeProductEntity> homeProducts;
+  final List<SearchProductEntity> searchProducts;
 
-  GetSearchedProductsSuccess({required this.homeProducts});
+  GetSearchedProductsSuccess({required this.searchProducts});
 }
 
 class GetSearchedProductsError extends SearchState {

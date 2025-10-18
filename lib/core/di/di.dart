@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:newsouq/core/api/dio_factory.dart';
+import 'package:newsouq/core/database/database.dart';
 import 'package:newsouq/features/home/data/apis/home_api_service.dart';
-import 'package:newsouq/features/home/data/apis/new_home_api_service.dart';
 import 'package:newsouq/features/home/data/repos/home_repo_imp.dart';
 import 'package:newsouq/features/home/presentation/cubit/home_cubit.dart';
 import 'package:newsouq/features/login/data/apis/login_api_service.dart';
 import 'package:newsouq/features/login/data/repos/login_repo_imp.dart';
 import 'package:newsouq/features/login/presentation/cubit/login_cubit.dart';
-import 'package:newsouq/features/reset_password/data/reset_password_repo_imp.dart';
+import 'package:newsouq/features/reset_password/data/apis/reset_password_api_service.dart';
+import 'package:newsouq/features/reset_password/data/repos/reset_password_repo_imp.dart';
 import 'package:newsouq/features/reset_password/presentation/cubit/reset_password_cubit.dart';
 import 'package:newsouq/features/search/data/apis/search_api_service.dart';
 import 'package:newsouq/features/search/data/repos/search_repo_imp.dart';
@@ -24,15 +24,22 @@ Future<void> setupGetIt() async {
   // Firebase Auth
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
-  // Database
-  //getIt.registerLazySingleton<Database>(() => Database());
+  // Firebase Firestore
+  getIt.registerLazySingleton<FirebaseFirestore>(
+    () => FirebaseFirestore.instance,
+  );
 
-  // Dio
-  Dio dio = DioFactory.getDio();
+  // Database
+  getIt.registerLazySingleton<Database>(
+    () => Database(firestore: getIt<FirebaseFirestore>()),
+  );
 
   // Signup
   getIt.registerLazySingleton<SignupApiService>(
-    () => SignupApiService(auth: getIt<FirebaseAuth>()),
+    () => SignupApiService(
+      auth: getIt<FirebaseAuth>(),
+      database: getIt<Database>(),
+    ),
   );
   getIt.registerLazySingleton<SignupRepoImp>(
     () => SignupRepoImp(signupApiService: getIt<SignupApiService>()),
@@ -53,8 +60,16 @@ Future<void> setupGetIt() async {
   );
 
   // Reset Password
+  getIt.registerLazySingleton<ResetPasswordApiService>(
+    () => ResetPasswordApiService(
+      auth: getIt<FirebaseAuth>(),
+      database: getIt<Database>(),
+    ),
+  );
   getIt.registerLazySingleton<ResetPasswordRepoImp>(
-    () => ResetPasswordRepoImp(auth: getIt<FirebaseAuth>()),
+    () => ResetPasswordRepoImp(
+      resetPasswordApiService: getIt<ResetPasswordApiService>(),
+    ),
   );
   getIt.registerFactory<ResetPasswordCubit>(
     () =>
@@ -62,20 +77,20 @@ Future<void> setupGetIt() async {
   );
 
   // home
-  getIt.registerLazySingleton<HomeApiService>(() => HomeApiService(dio));
-  getIt.registerLazySingleton<NewHomeApiService>(() => NewHomeApiService());
+  getIt.registerLazySingleton<HomeApiService>(
+    () => HomeApiService(firestore: getIt<FirebaseFirestore>()),
+  );
   getIt.registerLazySingleton<HomeRepoImp>(
-    () => HomeRepoImp(
-      homeApiService: getIt<HomeApiService>(),
-      newHomeApiService: getIt<NewHomeApiService>(),
-    ),
+    () => HomeRepoImp(homeApiService: getIt<HomeApiService>()),
   );
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(homeRepoImp: getIt<HomeRepoImp>()),
   );
 
   // search
-  getIt.registerLazySingleton<SearchApiService>(() => SearchApiService(dio));
+  getIt.registerLazySingleton<SearchApiService>(
+    () => SearchApiService(firestore: getIt<FirebaseFirestore>()),
+  );
   getIt.registerLazySingleton<SearchRepoImp>(
     () => SearchRepoImp(searchApiService: getIt<SearchApiService>()),
   );

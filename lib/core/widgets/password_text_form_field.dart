@@ -15,7 +15,7 @@ class PasswordTextFormField extends StatefulWidget {
 }
 
 class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
-  bool isObscureText = false;
+  bool isObscureText = true;
   bool? isValid;
 
   @override

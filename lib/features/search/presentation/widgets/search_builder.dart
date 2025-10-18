@@ -25,7 +25,7 @@ class SearchBuilder extends StatelessWidget {
           case GetSearchedProductsError _:
             return const Center(child: Text('Something went worng'));
           case GetSearchedProductsSuccess _:
-            if (state.homeProducts.isEmpty) {
+            if (state.searchProducts.isEmpty) {
               return SearchDefaultState();
             }
             return SearchSuccessState(state: state);

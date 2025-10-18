@@ -48,7 +48,7 @@ class _ProductsColumnState extends State<ProductsColumn> {
         crossAxisCount: 2,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
-        childAspectRatio: 2 / 3.2,
+        childAspectRatio: 2 / 3.5,
       ),
       itemCount: widget.state.hasMore
           ? widget.state.homeProducts.length +

@@ -24,7 +24,9 @@ class HomeSearchSuccessState extends StatelessWidget {
         itemBuilder: (_, i) => ListTile(
           onTap: () {},
           title: Text(state.homeProducts[i].name),
-          subtitle: Text("\$${state.homeProducts[i].price}"),
+          subtitle: Text(
+            "\$${state.homeProducts[i].price.toStringAsFixed(2)} EGP",
+          ),
         ),
       ),
     );

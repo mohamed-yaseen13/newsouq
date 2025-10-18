@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsouq/core/helpers/spacing.dart';
 import 'package:newsouq/core/styles/app_colors.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
-import 'package:newsouq/features/home/domain/entities/home_product_entity.dart';
 
 class ProductCard extends StatelessWidget {
-  final HomeProductEntity product;
+  // HomeProductEntity or SearchProductEntity
+  final dynamic product;
 
   const ProductCard({super.key, required this.product});
 

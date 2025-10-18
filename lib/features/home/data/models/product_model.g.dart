@@ -2,14 +2,14 @@
 
 // ignore_for_file: unused_element
 
-part of 'new_product_model.dart';
+part of 'product_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-NewProductModel _$NewProductModelFromJson(Map<String, dynamic> json) =>
-    NewProductModel(
+ProductModel _$NewProductModelFromJson(Map<String, dynamic> json) =>
+    ProductModel(
       category: json['category'] as String,
       costPrice: (json['costPrice'] as num).toDouble(),
       description: json['description'] as String,
@@ -22,7 +22,7 @@ NewProductModel _$NewProductModelFromJson(Map<String, dynamic> json) =>
       sellingPrice: (json['sellingPrice'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$NewProductModelToJson(NewProductModel instance) =>
+Map<String, dynamic> _$NewProductModelToJson(ProductModel instance) =>
     <String, dynamic>{
       'category': instance.category,
       'costPrice': instance.costPrice,

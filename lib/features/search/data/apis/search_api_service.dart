@@ -1,14 +1,20 @@
-import 'package:dio/dio.dart';
-import 'package:newsouq/core/api/api_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:newsouq/features/home/data/models/product_model.dart';
 import 'package:newsouq/features/home/data/models/products_response_model.dart';
-import 'package:retrofit/retrofit.dart';
 
-part 'search_api_service.g.dart';
+class SearchApiService {
+  final FirebaseFirestore firestore;
 
-@RestApi(baseUrl: ApiConstants.baseUrl)
-abstract class SearchApiService {
-  factory SearchApiService(Dio dio) = _SearchApiService;
+  SearchApiService({required this.firestore});
 
-  @GET(ApiConstants.products)
-  Future<ProductsResponseModel> getProducts();
+  Future<ProductsResponseModel> getProducts() async {
+    final snapshot = await firestore.collectionGroup('products').get();
+
+    final products = snapshot.docs.map((doc) {
+      final id = doc.reference.parent.parent!.id;
+      return ProductModel.fromJson(doc.data()).copyWithId(id);
+    }).toList();
+
+    return ProductsResponseModel(products: products, hasMore: false);
+  }
 }
