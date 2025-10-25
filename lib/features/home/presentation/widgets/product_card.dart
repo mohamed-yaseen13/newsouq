@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newsouq/core/helpers/spacing.dart';
 import 'package:newsouq/core/styles/app_colors.dart';
 import 'package:newsouq/core/styles/app_text_styles.dart';
+import 'package:newsouq/features/home/presentation/widgets/rating_display.dart';
 
 class ProductCard extends StatelessWidget {
   // HomeProductEntity or SearchProductEntity
@@ -13,7 +14,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Card(
           color: AppColors.gray1,
@@ -36,6 +37,7 @@ class ProductCard extends StatelessWidget {
         ),
         verticalSpace(4),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '${product.price.toStringAsFixed(2)} EGP',
@@ -49,6 +51,8 @@ class ProductCard extends StatelessWidget {
               ),
           ],
         ),
+        verticalSpace(4),
+        RatingDisplay(rating: 4.5, ratingCount: 125),
       ],
     );
   }
